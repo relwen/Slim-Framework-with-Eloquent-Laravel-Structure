@@ -132,10 +132,27 @@ $app->post('/create_emploi_tps', function ($request, $response, $args) {
 // PROGRAMMATION DES COURS
 $app->get('/cours', function ($request, $response, $args) {
     
+    $input = $request->getParsedBody();
+    $code=$input['code'];
 
-    $cours=Programmation::all();
+    $cours=Programmation::where('code_classe',$code)->get();
 
 	return $this->response->withJson($cours);
+
+
+});
+
+
+// PROGRAMMATION DES COURS  / VU ENSEIGNANT
+$app->get('/cours_enseignant', function ($request, $response, $args) {
+    
+
+    $input = $request->getParsedBody();
+    $code=$input['code'];
+
+    $cours=Programmation::where('matricule_enseignant',$code)->get();
+
+    return $this->response->withJson($cours);
 
 
 });
