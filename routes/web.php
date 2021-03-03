@@ -6,6 +6,7 @@ use App\Models\Categorie;
 use App\Models\ChefClasses;
 use App\Models\EmploiTps;
 use App\Models\Classe;
+use App\Models\Enseignant;
 use App\Models\Programmation;
 use App\Models\Matiere;
 use App\Models\CoursSuivi;
@@ -30,7 +31,7 @@ $app->post('/login', function ($request, $response, $args) {
 
     // $req=ChefClasses::with('classes')->where('matricule_etudiant',$username)->where('password',$password);
 
-    $req=ChefClasses::where('matricule_etudiant',$username);
+    $req=ChefClasses::where('email',$username);
     // $req=ChefClasses::where('matricule_etudiant',$username)->where('password',$password);
 
     $req_ex=$req->exists();
@@ -47,9 +48,39 @@ $app->post('/login', function ($request, $response, $args) {
 });
 
 
+// INSCRIPTION DE NOUVEAU ÉTUDIANT
+
+$app->post('/register', function ($request, $response, $args) {
+    
+    $user = $request->getParsedBody();
+
+    $name=$user['name'];
+    $surname=$user['surname'];
+    $matricule=$user['matricule'];
+    $email=$user['email'];
+    $sexe=$user['sexe'];
+    $tel1=$user['phone'];
+    $password=$user['password'];
+
+    $insert=Enseignant::create([
+        'matricule'=>$matricule,
+        'nom'=>$name,
+        'prenom'=>$surname,
+        'sexe'=>$sexe,
+        'tel1'=>$tel1,
+
+    ]);
+
+    if ($insert) {
+        return $this->response->withJson(['status'=>'ok']);
+    }else
+        return $this->response->withJson("rien");
+
+});
 
 
-// AVOIR LES EMPLOIS DU TPS
+
+// AVOIR LES EMPLOIS DU TPSœ
 $app->get('/emploi_tps/{filiere}/{classe}', function ($request, $response, $args) {
 	
     
@@ -63,6 +94,36 @@ $app->get('/emploi_tps/{filiere}/{classe}', function ($request, $response, $args
 
 
 });
+
+
+
+// CREER EMPLOI DU TPS
+$app->post('/create_emploi_tps', function ($request, $response, $args) {
+
+    $input = $request->getParsedBody();
+
+    $filiere=$input['filiere'];
+    $classe=$input['classe'];
+    $semaine=$input['semaine'];
+    $file=$input['file'];
+    $user=$input['user'];
+
+    $cree=EmploiTps::create([
+        'filiere'=>$filiere,
+        'classe'=>$classe,
+        'semaine'=>$semaine,
+        'file'=>$file,
+        'user_id'=>$user,
+    ]);
+
+    if($cree)
+        return $this->response->withJson(['status'=>'ok']);
+    else
+        return $this->response->withJson(['status'=>'non']);
+
+
+});
+
 
 
 

@@ -10,26 +10,18 @@ class Enseignant extends Model
 {
 
 	protected $table = 'enseignants';
-	protected $fillable =[
-						   	'id',
-						   	'matricuel',
-						   	'nom',
-						   	'prenom',
-						   	'sexe',
-						   	'type',
-						   	'rang',
-						   	'code_civilite',
-						   	'code_grade',
-						   	'tel1',
-						   	'tel2',
-						   	'tel3',
-						   	'email',
-						   	'diplome',
-						   	'vh_statutaire',
-					   ];
+    protected $fillable =[
+				   	'id',
+				   	'nom',
+				   	'prenom',
+				   	'matricule',
+				   	'sexe',
+				   	'tel1',
+				   	'email',
+				   ];
 
 
-					   
+				   
 
 
 
