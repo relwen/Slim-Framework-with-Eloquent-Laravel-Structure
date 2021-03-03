@@ -27,11 +27,11 @@ $app->post('/login', function ($request, $response, $args) {
     $username=$user['username'];
     $password=$user['password'];
 
-	$password = password_hash($password, PASSWORD_BCRYPT);
+	$password = sha1(md5($password));
 
     // $req=ChefClasses::with('classes')->where('matricule_etudiant',$username)->where('password',$password);
 
-    $req=ChefClasses::where('email',$username);
+    $req=ChefClasses::where('email',$username)->where('password',$password);
     // $req=ChefClasses::where('matricule_etudiant',$username)->where('password',$password);
 
     $req_ex=$req->exists();
